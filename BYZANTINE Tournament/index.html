@@ -1,70 +1,288 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BYZANTINE Quiz Bowl</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            text-align: center;
-        }
-        header {
-            background-color: #800020;
-            color: white;
-            padding: 20px;
-            font-size: 24px;
-        }
-        main {
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background: #800020;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-        .button:hover {
-            background: #600018;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BYZANTINE Quiz Bowl</title>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+Great+Primer+SC&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'IM Fell Great Primer SC', serif;
+      background-color: #1a1a1a;
+      color: gold;
+      overflow-x: hidden;
+      position: relative;
+      line-height: 1.6;
+      text-align: center;
+    }
+    body::before {
+      content: "";
+      background: url('https://upload.wikimedia.org/wikipedia/commons/8/84/Double-headed_eagle_of_the_Byzantine_Empire.png') no-repeat center center;
+      background-size: 40%;
+      opacity: 0.08;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      animation: slowZoom 25s infinite alternate;
+    }
+    @keyframes slowZoom {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); }
+    }
+    #particles-js {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    header {
+      background: linear-gradient(135deg, #800020, #b03060);
+      color: gold;
+      padding: 20px;
+      font-size: 2rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 10px rgba(255, 215, 0, 0.8);
+      border-bottom: 5px solid gold;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    header .symbol {
+      margin: 0 10px;
+      animation: flicker 2s infinite alternate;
+    }
+    @keyframes flicker {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+    .eagle-container {
+      text-align: center;
+      margin: 20px auto;
+      z-index: 2;
+      position: relative;
+    }
+    .eagle-container img {
+      width: 120px;
+      animation: pulse 3s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    .container {
+      max-width: 900px;
+      margin: 20px auto 50px auto;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+      animation: fadeIn 2s ease-in-out;
+      border: 3px solid gold;
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
+    }
+    .container::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      right: -20px;
+      bottom: -20px;
+      background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
+      opacity: 0.1;
+      pointer-events: none;
+      z-index: -1;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 25px;
+      background: gold;
+      color: #800020;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: transform 0.3s ease, background 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+      margin-top: 20px;
+    }
+    .button i {
+      margin-right: 8px;
+      animation: rotateIcon 3s linear infinite;
+    }
+    @keyframes rotateIcon {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .button:hover {
+      background: #ffcc00;
+      transform: scale(1.1);
+    }
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1s ease-out, transform 1s ease-out;
+    }
+    .scroll-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .map-section {
+      background: #0d0d0d;
+      padding: 50px 20px;
+      position: relative;
+      z-index: 2;
+      text-align: center;
+    }
+    .map-section h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-shadow: 1px 1px 8px rgba(0,0,0,0.7);
+    }
+    .map-section img {
+      max-width: 90%;
+      border: 5px solid gold;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255,215,0,0.5);
+      transition: transform 0.3s ease;
+    }
+    .map-section img:hover {
+      transform: scale(1.05);
+    }
+    footer {
+      padding: 20px;
+      background: #111;
+      color: #888;
+      font-size: 0.9rem;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        BYZANTINE Quiz Bowl Tournament
-    </header>
-    <main>
-        <div class="container">
-            <h2>Welcome to BYZANTINE!</h2>
-            <p><strong>Bringing Young Zealous Academics Needing Tough Intellectual Nuances and Excellence</strong></p>
-            <p>
-                Hosted online by Winston Churchill Middle School on <strong>March 22, 2025</strong>, BYZANTINE is a quiz bowl tournament designed for middle school teams and high school novice teams.
-            </p>
-            <p>
-                The tournament will use the <strong>TSE MS #1</strong> question set, and statistics will be uploaded to <a href="https://hsquizbowl.org/" target="_blank">hsquizbowl.org</a> after the event.
-            </p>
-            <p>
-                <strong>Eligibility:</strong> Open to middle school teams and high school novice teams. Unsure if your team qualifies? Contact us on Discord at <strong>quizbowlenjoyer</strong> on discord or <strong>byzantineqb@gmail.com</strong> on gmail.
-            </p>
-            <p>
-                <strong>Important:</strong> All players must have at least one hand visible on camera at all times during matches.
-            </p>
-            <a href="#" class="button">Register Now</a>
-        </div>
-    </main>
+  <div id="particles-js"></div>
+
+  <header>
+    <i class="fas fa-gem symbol"></i>
+    BYZANTINE Quiz Bowl Tournament
+    <i class="fas fa-gem symbol"></i>
+  </header>
+  
+  <div class="eagle-container">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Double-headed_eagle_of_the_Byzantine_Empire.png" alt="Byzantine Eagle">
+  </div>
+
+  <main>
+    <div class="container scroll-reveal">
+      <h2><i class="fas fa-fire-alt"></i> Welcome to BYZANTINE! <i class="fas fa-fire-alt"></i></h2>
+      <p>
+        <strong>Bringing Young Zealous Academics Needing Tough Intellectual Nuances and Excellence</strong>
+      </p>
+      <p>
+        Hosted online by Winston Churchill Middle School on <strong>March 22, 2025</strong>, BYZANTINE is a quiz bowl tournament designed for middle school teams and high school novice teams.
+      </p>
+      <p>
+        The tournament will use the <strong>TSE MS #1</strong> question set, and statistics will be uploaded to <a href="https://hsquizbowl.org/" target="_blank" style="color: gold; text-decoration: underline;">hsquizbowl.org</a> after the event.
+      </p>
+      <p>
+        <strong>Eligibility:</strong> Open to middle school teams and high school novice teams. Unsure if your team qualifies? Contact us on Discord at <strong>quizbowlenjoyer</strong> or <strong>byzantineqb@gmail.com</strong>.
+      </p>
+      <p>
+        <strong>Important:</strong> All players must have at least one hand visible on camera at all times during matches.
+      </p>
+      <a href="#empire" class="button"><i class="fas fa-sign-in-alt"></i> Explore the Empire</a>
+    </div>
+  </main>
+
+  <section id="empire" class="map-section scroll-reveal">
+    <h2>The Byzantine Empire</h2>
+    <p>Will your team emerge kings?</p>
+    <img src="https://www.athenstourgreece.com/wp-content/uploads/2024/06/Byzantine-Empire1285-1.webp" alt="Map of the Byzantine Empire">
+  </section>
+
+  <footer>
+    &copy; 2025 BYZANTINE Quiz Bowl Tournament. All rights reserved.
+  </footer>
+
+  <script>
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 150,
+          "density": { "enable": true, "value_area": 800 }
+        },
+        "color": { "value": ["#ff4500", "#ff8c00", "#ffd700"] },
+        "shape": {
+          "type": "circle",
+          "stroke": { "width": 0, "color": "#000000" },
+          "polygon": { "nb_sides": 5 }
+        },
+        "opacity": {
+          "value": 0.7,
+          "random": true
+        },
+        "size": {
+          "value": 4,
+          "random": true
+        },
+        "line_linked": {
+          "enable": false
+        },
+        "move": {
+          "enable": true,
+          "speed": 6,
+          "direction": "top",
+          "out_mode": "out"
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" },
+          "resize": true
+        },
+        "modes": {
+          "repulse": { "distance": 100, "duration": 0.4 },
+          "push": { "particles_nb": 4 }
+        }
+      },
+      "retina_detect": true
+    });
+
+    document.addEventListener("scroll", function() {
+      const reveals = document.querySelectorAll(".scroll-reveal");
+      reveals.forEach(reveal => {
+        const windowHeight = window.innerHeight;
+        const revealTop = reveal.getBoundingClientRect().top;
+        const revealPoint = 100;
+        if (revealTop < windowHeight - revealPoint) {
+          reveal.classList.add("visible");
+        }
+      });
+    });
+  </script>
 </body>
 </html>
