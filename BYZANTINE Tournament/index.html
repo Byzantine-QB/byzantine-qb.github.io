@@ -51,6 +51,29 @@
       height: 100%;
       z-index: 1;
     }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 10px 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+    nav ul li a {
+      color: gold;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+    nav ul li a:hover {
+      color: #ffcc00;
+    }
     header {
       background: linear-gradient(135deg, #800020, #b03060);
       color: gold;
@@ -72,6 +95,16 @@
     @keyframes flicker {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.6; }
+    }
+    .countdown {
+      margin: 20px auto;
+      font-size: 1.2rem;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 10px 20px;
+      border-radius: 8px;
+      display: inline-block;
+      z-index: 2;
+      position: relative;
     }
     .eagle-container {
       text-align: center;
@@ -172,6 +205,9 @@
     .map-section img:hover {
       transform: scale(1.05);
     }
+    #register {
+      padding: 40px 20px;
+    }
     footer {
       padding: 20px;
       background: #111;
@@ -179,17 +215,46 @@
       font-size: 0.9rem;
       text-align: center;
     }
+    #back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: gold;
+      color: #800020;
+      padding: 10px 15px;
+      border-radius: 50%;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: none;
+      z-index: 4;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease;
+    }
+    #back-to-top:hover {
+      transform: scale(1.1);
+    }
   </style>
 </head>
 <body>
   <div id="particles-js"></div>
 
-  <header>
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#empire">Empire</a></li>
+      <li><a href="#register">Register</a></li>
+      <li><a href="https://hsquizbowl.org/forums/" target="_blank">Forums</a></li>
+    </ul>
+  </nav>
+
+  <header id="home">
     <i class="fas fa-gem symbol"></i>
     BYZANTINE Quiz Bowl Tournament
     <i class="fas fa-gem symbol"></i>
   </header>
-  
+
+  <div class="countdown" id="countdown"></div>
+
   <div class="eagle-container">
     <img src="https://upload.wikimedia.org/wikipedia/commons/8/84/Double-headed_eagle_of_the_Byzantine_Empire.png" alt="Byzantine Eagle">
   </div>
@@ -207,13 +272,13 @@
         The tournament will use the <strong>TSE MS #1</strong> question set, and statistics will be uploaded to <a href="https://hsquizbowl.org/" target="_blank" style="color: gold; text-decoration: underline;">hsquizbowl.org</a> after the event.
       </p>
       <p>
-        <strong>Eligibility:</strong> Open to middle school teams and high school novice teams. Unsure if your team qualifies? Contact us on Discord at <strong>quizbowlenjoyer </strong> or <strong> quizbowlr</strong> or by email at <strong>byzantineqb@gmail.com</strong>.
+        <strong>Eligibility:</strong> Open to middle school teams and high school novice teams. Unsure if your team qualifies? Contact us on Discord at <strong>quizbowlenjoyer</strong> or via email at <strong>byzantineqb@gmail.com</strong>.
       </p>
       <p>
         <strong>Important:</strong> All players must have at least one hand visible on camera at all times during matches.
       </p>
-      <a href="https://hsquizbowl.org/forums/" class="button"><i class="fas fa-sign-in-alt"></i> Visit Forums</a>
-<a href="#register" class="button"><i class="fas fa-sign-in-alt"></i> Register </a>
+      <a href="https://hsquizbowl.org/forums/" class="button" target="_blank"><i class="fas fa-sign-in-alt"></i> Visit Forums</a>
+      <a href="#register" class="button"><i class="fas fa-sign-in-alt"></i> Register</a>
     </div>
   </main>
 
@@ -223,15 +288,16 @@
     <img src="https://www.athenstourgreece.com/wp-content/uploads/2024/06/Byzantine-Empire1285-1.webp" alt="Map of the Byzantine Empire">
   </section>
 
-  <section id="empire" class="container scroll-reveal">
-    <h2 id="register">Register</h2>
-<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc4UDcak9J2TKBsOEAldfh0jlmUuguGpaBacWFx3oHu570ZZA/viewform?embedded=true" width="640" height="765" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-
+  <section id="register" class="container scroll-reveal">
+    <h2>Register</h2>
+    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSc4UDcak9J2TKBsOEAldfh0jlmUuguGpaBacWFx3oHu570ZZA/viewform?embedded=true" width="640" height="765" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
   </section>
 
+  <div id="back-to-top"><i class="fas fa-arrow-up"></i></div>
 
   <footer>
-    &copy; 2025 BYZANTINE Quiz Bowl Tournament. <br> Help from: Pranay Bodducherla, Kavin Anreddy, Srijan Roy, Ryan Yarlagadda, Adrish Bhattacharyya.
+    &copy; 2025 BYZANTINE Quiz Bowl Tournament. <br>
+    Help from: Pranay Bodducherla, Kavin Anreddy, Srijan Roy, Ryan Yarlagadda, Adrish Bhattacharyya.
   </footer>
 
   <script>
@@ -290,6 +356,36 @@
           reveal.classList.add("visible");
         }
       });
+    });
+
+    const countdownEl = document.getElementById('countdown');
+    const eventDate = new Date("March 22, 2025 00:00:00").getTime();
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = eventDate - now;
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      countdownEl.innerHTML = `Event starts in: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+      if (distance < 0) {
+        clearInterval(countdownInterval);
+        countdownEl.innerHTML = "The event has started!";
+      }
+    }
+    const countdownInterval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    const backToTopBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.style.display = 'block';
+      } else {
+        backToTopBtn.style.display = 'none';
+      }
+    });
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   </script>
 </body>
